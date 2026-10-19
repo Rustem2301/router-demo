@@ -1,38 +1,72 @@
-.App {
-  text-align: center;
+.app-brand {
+  color: #fff !important;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.app-content {
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.feed-card {
+  height: 100%;
+}
+
+.feed-cover {
+  height: 150px;
+}
+
+.feed-cover-small {
+  height: 110px;
+}
+
+.longread-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.longread-container {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 24px 24px 96px;
+}
+
+.longread-cover {
+  height: 280px;
+  margin: 28px 0;
+  border-radius: 16px;
+}
+
+.longread-lead {
+  font-size: 19px;
+  line-height: 1.7;
+  color: #595959;
+}
+
+.longread-body p {
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+@media (max-width: 640px) {
+  .app-content {
+    padding: 20px 12px 48px;
   }
-}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  .longread-container {
+    padding: 16px 16px 64px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .longread-cover {
+    height: 180px;
+    margin: 20px 0;
   }
 }
