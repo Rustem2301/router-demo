@@ -1,7 +1,6 @@
 import type { ModalFuncProps } from 'antd';
-import { useCallback } from 'react';
-
-import { useBlocker } from '../providers/navigation-blocker';
+import { useEffect, useRef } from 'react';
+import { useBlocker } from 'react-router-dom';
 
 type ModalApi = {
   confirm: (props: ModalFuncProps) => unknown;
@@ -15,10 +14,14 @@ type Params = {
 
 export const useModalBlocker = (params: Params) => {
   const { isBlocked, modal, modalProps = {} } = params;
+  const blocker = useBlocker(isBlocked);
+  const handledLocationKeyRef = useRef<string | null>(null);
 
-  const shouldBlock = useCallback(async () => {
-    if (isBlocked) {
-      const isConfirmed = await new Promise<boolean>((resolve) => {
+  useEffect(() => {
+    if (blocker.state === 'blocked') {
+      if (handledLocationKeyRef.current !== blocker.location.key) {
+        handledLocationKeyRef.current = blocker.location.key;
+
         modal.confirm({
           icon: null,
           centered: true,
@@ -26,16 +29,12 @@ export const useModalBlocker = (params: Params) => {
           okText: 'Выйти',
           cancelText: 'Отмена',
           ...modalProps,
-          onOk: () => resolve(true),
-          onCancel: () => resolve(false),
+          onOk: () => blocker.proceed(),
+          onCancel: () => blocker.reset(),
         });
-      });
-
-      return !isConfirmed;
+      }
+    } else {
+      handledLocationKeyRef.current = null;
     }
-
-    return false;
-  }, [isBlocked, modal, modalProps]);
-
-  return useBlocker(shouldBlock);
+  }, [blocker, modal, modalProps]);
 };

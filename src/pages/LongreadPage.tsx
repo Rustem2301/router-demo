@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import type { LongreadItem } from '../mocks/longreads';
 import { getLongread, LongreadTypes } from '../mocks/longreads';
+import { getRoutePath, RouteNames } from '../router/routes';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -101,7 +102,7 @@ export const LongreadPage = () => {
   const { fromPath } = (location.state as LongreadLocationState | null) || {};
 
   const onClose = useCallback(() => {
-    navigate(fromPath || fromQuery || '/home', { replace: true });
+    navigate(fromPath || fromQuery || getRoutePath(RouteNames.Home), { replace: true });
   }, [fromPath, fromQuery, navigate]);
 
   useEffect(() => {

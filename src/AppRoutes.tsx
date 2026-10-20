@@ -1,17 +1,34 @@
-import React from 'react';
+import { Spin } from 'antd';
+import React, { Suspense } from 'react';
 import type { Location } from 'react-router-dom';
 import { Navigate, Route, Routes, useLocation, useMatch } from 'react-router-dom';
 
 import { AppLayout } from './layout/AppLayout';
-import { HomePage } from './pages/HomePage';
-import { LongreadPage } from './pages/LongreadPage';
-import { NewsPage } from './pages/NewsPage';
-import { SettingsPage } from './pages/SettingsPage';
-import { RouteNames, routes } from './router/routes';
+import { ModalRoute } from './router/ModalRoute';
+import type { LazyRoute } from './router/routes';
+import { getRoutePath, longreadRoutes, privateRoutes, RouteNames, routes } from './router/routes';
 
 type LongreadLocationState = {
   longreadLocation?: Location;
 };
+
+const renderRouteComponent = (LazyComponent: LazyRoute['component'], modal?: boolean) => {
+  if (modal) {
+    return <ModalRoute>{(onClose) => <LazyComponent onClose={onClose} />}</ModalRoute>;
+  }
+
+  return <LazyComponent />;
+};
+
+const renderRoute = ({ path, component, modal, children }: LazyRoute) => (
+  <Route
+    key={path}
+    path={path}
+    element={<Suspense fallback={<Spin fullscreen />}>{renderRouteComponent(component, modal)}</Suspense>}
+  >
+    {children?.map(renderRoute)}
+  </Route>
+);
 
 export const AppRoutes = () => {
   const location = useLocation();
@@ -23,20 +40,14 @@ export const AppRoutes = () => {
       {(!isLongread || longreadLocation) && (
         <Routes location={longreadLocation || location}>
           <Route element={<AppLayout />}>
-            <Route index element={<Navigate to={routes[RouteNames.Home]} replace />} />
-            <Route path={routes[RouteNames.Home]} element={<HomePage />} />
-            <Route path={routes[RouteNames.News]} element={<NewsPage />} />
-            <Route path={routes[RouteNames.Settings]} element={<SettingsPage />} />
-            <Route path="*" element={<Navigate to={routes[RouteNames.Home]} replace />} />
+            <Route index element={<Navigate to={getRoutePath(RouteNames.Home)} replace />} />
+            {privateRoutes.map(renderRoute)}
+            <Route path="*" element={<Navigate to={getRoutePath(RouteNames.Home)} replace />} />
           </Route>
         </Routes>
       )}
 
-      {isLongread && (
-        <Routes>
-          <Route path={routes[RouteNames.Longread]} element={<LongreadPage />} />
-        </Routes>
-      )}
+      {isLongread && <Routes>{longreadRoutes.map(renderRoute)}</Routes>}
     </>
   );
 };

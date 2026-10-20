@@ -1,16 +1,16 @@
 import { stringify } from 'query-string';
 import { useCallback } from 'react';
 import type { NavigateOptions, To } from 'react-router-dom';
-import { generatePath, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import type { LongreadParams } from '../mocks/longreads';
-import { RouteNames, routes } from '../router/routes';
+import { getRoutePath, RouteNames } from '../router/routes';
 
 const getLinkParams = (params: LongreadParams, from: string): To => {
   const { type, id, ...restParams } = params;
 
   return {
-    pathname: generatePath(routes[RouteNames.Longread], { id: String(id), type }),
+    pathname: getRoutePath(RouteNames.Longread, { id: String(id), type }),
     search: stringify({ ...restParams, from }),
   };
 };

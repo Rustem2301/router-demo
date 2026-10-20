@@ -1,13 +1,16 @@
 import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useLongreadNavigation } from '../hooks/useLongreadNavigation';
 import { LongreadTypes, longreads } from '../mocks/longreads';
+import { getRoutePath, RouteNames } from '../router/routes';
 
 const { Title, Paragraph, Text } = Typography;
 
 export const HomePage = () => {
   const { openLongread } = useLongreadNavigation();
+  const navigate = useNavigate();
   const posts = longreads[LongreadTypes.Post];
   const timeline = longreads[LongreadTypes.Timeline];
 
@@ -22,6 +25,26 @@ export const HomePage = () => {
           роут.
         </Paragraph>
       </div>
+
+      <Card>
+        <Space orientation="vertical" size={12} style={{ width: '100%' }}>
+          <Space wrap size={8}>
+            <Tag color="purple">Пример</Tag>
+            <Tag>Вложенные роуты</Tag>
+          </Space>
+          <Title level={4} style={{ margin: 0 }}>
+            Вложенные модальные роуты
+          </Title>
+          <Paragraph type="secondary" style={{ margin: 0 }}>
+            Откройте группу, затем альбомы, альбом и фотографию. Каждый шаг меняет URL и добавляет модальное
+            окно поверх предыдущего.
+          </Paragraph>
+          <Text code>/groups/1 → /groups/1/albums → /groups/1/albums/1 → .../image/2</Text>
+          <Button type="primary" onClick={() => navigate(getRoutePath(RouteNames.Group, { groupId: 1 }))}>
+            Открыть groups/1
+          </Button>
+        </Space>
+      </Card>
 
       <Row gutter={[16, 16]}>
         {posts.map((post) => (

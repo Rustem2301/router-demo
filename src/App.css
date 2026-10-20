@@ -25,6 +25,22 @@
   height: 110px;
 }
 
+.album-cover {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: 8px;
+}
+
+.album-image-cover {
+  height: 120px;
+}
+
+.group-image-preview {
+  height: 360px;
+  border-radius: 12px;
+}
+
 .longread-overlay {
   position: fixed;
   inset: 0;
@@ -68,5 +84,9 @@
   .longread-cover {
     height: 180px;
     margin: 20px 0;
+  }
+
+  .group-image-preview {
+    height: 240px;
   }
 }

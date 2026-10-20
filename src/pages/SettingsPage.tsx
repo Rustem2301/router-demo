@@ -44,8 +44,7 @@ export const SettingsPage = () => {
           Настройки
         </Title>
         <Paragraph type="secondary" style={{ marginBottom: 0 }}>
-          Измените любое поле и попробуйте перейти на другую страницу. Сработает тот же useBlocker, что
-          используется в основном приложении.
+          Измените любое поле и попробуйте перейти на другую страницу. Сработает useBlocker из React Router.
         </Paragraph>
       </div>
 

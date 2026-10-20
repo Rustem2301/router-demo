@@ -225,6 +225,12 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/pages/modules/**/*.ts'],
+    rules: {
+      'import/no-default-export': 0,
+    },
+  },
+  {
     files: ['**/*.{js,cjs}'],
     rules: {
       '@typescript-eslint/no-require-imports': 'off',
