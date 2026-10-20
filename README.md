@@ -9,8 +9,8 @@
 - https://github.com/Rustem2301/router-demo/blob/master/src/router/ModalRoute.tsx
 - https://github.com/Rustem2301/router-demo/blob/master/src/AppRoutes.tsx
 
-- Демо: `https://rustem2301.github.io/router-demo/`
-- Исходники: `https://github.com/Rustem2301/router-demo`
+- Демо: https://rustem2301.github.io/router-demo/
+- Исходники: https://github.com/Rustem2301/router-demo
 
 ## Локальный запуск
 
