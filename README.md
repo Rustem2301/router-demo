@@ -1,6 +1,13 @@
 # Router sandbox
 
-Демо вложенных модальных маршрутов на React Router: группа → альбомы → альбом → фото, с ленивой загрузкой страниц и закрытием модалок через историю.
+Демо вложенных модальных маршрутов на React Router: группа → альбомы → альбом → фото, с закрытием модалок через вложенные роуты.
+
+Модальные окна создаются автоматически через компонентные модалки Ant Modal (<UiModal open>) чтобы сохранялся порядок стэка модалок (z-index)
+Иначе если через мы будем использовать открытие модалки через хук - то useEffect навешанный на открытие модалки будет вызываться от ребенка к родителю. 
+
+Основные файлы: 
+- https://github.com/Rustem2301/router-demo/blob/master/src/router/ModalRoute.tsx
+- https://github.com/Rustem2301/router-demo/blob/master/src/AppRoutes.tsx
 
 - Демо: `https://rustem2301.github.io/router-demo/`
 - Исходники: `https://github.com/Rustem2301/router-demo`
