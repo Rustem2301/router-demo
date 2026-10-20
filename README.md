@@ -2,8 +2,8 @@
 
 Демо вложенных модальных маршрутов на React Router: группа → альбомы → альбом → фото, с ленивой загрузкой страниц и закрытием модалок через историю.
 
-- Демо: `https://<user>.github.io/<repo>/`
-- Исходники: `https://github.com/<user>/<repo>`
+- Демо: `https://rustem2301.github.io/router-demo/`
+- Исходники: `https://github.com/Rustem2301/router-demo`
 
 ## Локальный запуск
 
