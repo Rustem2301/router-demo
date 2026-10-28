@@ -2,6 +2,7 @@ import { Button, Card, Col, List, Row, Space, Steps, Typography } from 'antd';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { GroupFileService } from './groupFilesService';
 import { UiModal } from '../../components/ui-modal/UiModal';
 import type { Group, GroupAlbum, GroupImage } from '../../mocks/groups';
 import { getAlbum, getGroup, getGroupImage } from '../../mocks/groups';
@@ -14,7 +15,8 @@ const wizardSteps = [{ title: 'Файлы' }, { title: 'Файл' }, { title: '�
 type GroupFilesWizardParams = {
   groupId?: string;
   fileId?: string;
-  commentId?: string;
+  service?: GroupFileService;
+  serviceId?: string;
 };
 
 type FilesStepProps = {
@@ -58,7 +60,7 @@ const FilesStep = (props: FilesStepProps) => {
 
 type FileStepProps = {
   file: GroupAlbum | null;
-  onOpenComment: (commentId: string) => void;
+  onOpenComment: (serviceId: string) => void;
   onClose: () => void;
 };
 
@@ -121,13 +123,15 @@ const CommentStep = (props: CommentStepProps) => {
 };
 
 export const GroupFilesWizard = () => {
-  const { groupId, fileId, commentId } = useParams<GroupFilesWizardParams>();
+  const { groupId, fileId, service, serviceId } = useParams<GroupFilesWizardParams>();
   const navigate = useNavigate();
   const group = getGroup(groupId);
   const files = group?.albums ?? [];
   const file = getAlbum(groupId, fileId);
-  const comment = getGroupImage(groupId, fileId, commentId);
-  const currentStep = commentId ? 2 : fileId ? 1 : 0;
+  const isCommentsService = service === GroupFileService.Comments;
+  const comment = isCommentsService ? getGroupImage(groupId, fileId, serviceId) : null;
+  const hasComment = Boolean(fileId && serviceId && isCommentsService);
+  const currentStep = hasComment ? 2 : fileId ? 1 : 0;
 
   const closeWizard = () => {
     navigate('..', { relative: 'route', replace: true });
@@ -145,7 +149,7 @@ export const GroupFilesWizard = () => {
 
   const closeComment = () => {
     if (groupId && fileId) {
-      navigate(getRoutePath(RouteNames.GroupFile, { groupId, fileId }), { replace: true });
+      navigate(getRoutePath(RouteNames.GroupFiles, { groupId, fileId }), { replace: true });
 
       return;
     }
@@ -155,13 +159,20 @@ export const GroupFilesWizard = () => {
 
   const openFile = (nextFileId: string) => {
     if (groupId) {
-      navigate(getRoutePath(RouteNames.GroupFile, { groupId, fileId: nextFileId }));
+      navigate(getRoutePath(RouteNames.GroupFiles, { groupId, fileId: nextFileId }));
     }
   };
 
-  const openComment = (nextCommentId: string) => {
+  const openComment = (nextServiceId: string) => {
     if (groupId && fileId) {
-      navigate(getRoutePath(RouteNames.GroupFileComment, { groupId, fileId, commentId: nextCommentId }));
+      navigate(
+        getRoutePath(RouteNames.GroupFiles, {
+          groupId,
+          fileId,
+          service: GroupFileService.Comments,
+          serviceId: nextServiceId,
+        }),
+      );
     }
   };
 
@@ -183,7 +194,7 @@ export const GroupFilesWizard = () => {
         </UiModal>
       )}
 
-      {fileId && commentId && (
+      {hasComment && (
         <UiModal onClose={closeComment} width={520} mask={false} zIndex={1200}>
           <UiModal.Header>
             <UiModal.Header.Title title={comment ? comment.title : 'Комментарий'} />

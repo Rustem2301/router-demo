@@ -12,16 +12,18 @@
 Маршрут один:
 
 ```text
-/groups/:groupId/files/:fileId?/comments?/:commentId?
+/groups/:groupId/files/:fileId?/:service?/:serviceId?
 ```
 
 Он покрывает:
 
 - `/groups/:groupId/files` — список файлов;
 - `/groups/:groupId/files/:fileId` — файл поверх визарда;
-- `/groups/:groupId/files/:fileId/comments/:commentId` — комментарий поверх файла.
+- `/groups/:groupId/files/:fileId/comments/:serviceId` — комментарий поверх файла, где `service=comments`.
 
 Внутри `GroupFilesWizard` по `useParams` определяет, какие модалки показать. Закрытие визарда использует нативный `navigate('..', { relative: 'route', replace: true })` и возвращает на страницу группы. Файл и комментарий закрываются навигацией на родительский URL через параметры.
+
+Возможные значения `service` типизированы в `GroupFileService`. Сейчас поддерживается `comments`.
 
 Для демо используются существующие моки: альбом = файл, изображение = комментарий.
 
