@@ -45,14 +45,19 @@ export const GroupPage = () => {
             </Title>
             <Text type="secondary">
               В группе {group.albums.length} альбома. Откройте список, затем альбом и фотографию — каждый шаг
-              меняет URL.
+              меняет URL. Или откройте отдельный вариант с модалкой-визардом.
             </Text>
-            <Button
-              type="primary"
-              onClick={() => navigate(getRoutePath(RouteNames.GroupAlbums, { groupId: group.id }))}
-            >
-              Открыть альбомы
-            </Button>
+            <Space wrap size={8}>
+              <Button
+                type="primary"
+                onClick={() => navigate(getRoutePath(RouteNames.GroupAlbums, { groupId: group.id }))}
+              >
+                Открыть альбомы
+              </Button>
+              <Button onClick={() => navigate(getRoutePath(RouteNames.GroupFiles, { groupId: group.id }))}>
+                Открыть файлы
+              </Button>
+            </Space>
           </Space>
         </Card>
       </Space>

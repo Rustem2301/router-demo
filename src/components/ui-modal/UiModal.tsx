@@ -1,4 +1,5 @@
 import { Button, Modal, Space, Typography } from 'antd';
+import type { ModalProps } from 'antd';
 import React, { createContext, useContext } from 'react';
 import type { PropsWithChildren, ReactNode } from 'react';
 
@@ -18,16 +19,16 @@ const useUiModal = (): UiModalContextValue => {
   return context;
 };
 
-type UiModalProps = PropsWithChildren<{
+type UiModalProps = Omit<ModalProps, 'open' | 'closable' | 'footer' | 'onCancel'> & {
   onClose: () => void;
-}>;
+};
 
 const UiModalBase = (props: UiModalProps) => {
-  const { onClose, children } = props;
+  const { onClose, children, ...modalProps } = props;
 
   return (
     <UiModalContext.Provider value={{ onClose }}>
-      <Modal open closable={false} footer={null} onCancel={onClose}>
+      <Modal {...modalProps} open closable={false} footer={null} onCancel={onClose}>
         {children}
       </Modal>
     </UiModalContext.Provider>

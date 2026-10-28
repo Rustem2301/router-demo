@@ -46,6 +46,26 @@ export const HomePage = () => {
         </Space>
       </Card>
 
+      <Card>
+        <Space orientation="vertical" size={12} style={{ width: '100%' }}>
+          <Space wrap size={8}>
+            <Tag color="green">Вариант 2</Tag>
+            <Tag>Одна модалка-визард</Tag>
+          </Space>
+          <Title level={4} style={{ margin: 0 }}>
+            Визард с вложенными модалками
+          </Title>
+          <Paragraph type="secondary" style={{ margin: 0 }}>
+            Одна модалка открывает файл и комментарий по параметрам маршрута. Закрытие визарда возвращает на
+            страницу группы.
+          </Paragraph>
+          <Text code>/groups/1/files → /groups/1/files/1 → /groups/1/files/1/comments/1</Text>
+          <Button onClick={() => navigate(getRoutePath(RouteNames.GroupFiles, { groupId: 1 }))}>
+            Открыть визард
+          </Button>
+        </Space>
+      </Card>
+
       <Row gutter={[16, 16]}>
         {posts.map((post) => (
           <Col xs={24} md={12} xl={8} key={post.id}>

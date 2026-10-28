@@ -11,6 +11,9 @@ export enum RouteNames {
   GroupAlbums = 'GroupAlbums',
   GroupAlbum = 'GroupAlbum',
   GroupImage = 'GroupImage',
+  GroupFiles = 'GroupFiles',
+  GroupFile = 'GroupFile',
+  GroupFileComment = 'GroupFileComment',
 }
 
 export type RouteConfig = Record<RouteNames, string>;
@@ -26,6 +29,9 @@ export const routes: RouteConfig = {
   [RouteNames.GroupAlbums]: '/groups/:groupId/albums',
   [RouteNames.GroupAlbum]: '/groups/:groupId/albums/:albumId',
   [RouteNames.GroupImage]: '/groups/:groupId/albums/:albumId/image/:imageId',
+  [RouteNames.GroupFiles]: '/groups/:groupId/files',
+  [RouteNames.GroupFile]: '/groups/:groupId/files/:fileId',
+  [RouteNames.GroupFileComment]: '/groups/:groupId/files/:fileId/comments/:commentId',
 };
 
 const isRouteName = (route: string | RouteNames): route is RouteNames => route in RouteNames;
@@ -98,6 +104,10 @@ export const privateRoutes: LazyRoute[] = [
             ],
           },
         ],
+      },
+      {
+        path: `${routes[RouteNames.GroupFiles]}/:fileId?/comments?/:commentId?`,
+        component: lazy(() => import('../pages/modules/PageGroupFilesWizard')),
       },
     ],
   },
